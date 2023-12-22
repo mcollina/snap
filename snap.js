@@ -1,25 +1,27 @@
 import { createHash } from 'node:crypto'
 import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { findUp } from 'find-up'
 import { mkdir, writeFile, readFile } from 'node:fs/promises'
+import slash from 'slash'
 
-export default function build (seed, opts = {}) {
-  const hash = createHash('md5').update(seed).digest('hex')
+export default function build (testPath, opts = {}) {
   let counter = 0
 
   const update = opts.update || !!process.env.SNAP_UPDATE
 
   let dir
   async function init () {
-    const cwd = opts.cwd || dirname(await findUp('package.json', { cwd: dirname(seed) }))
-
-    dir = join(cwd, '.snapshots', hash)
-
-    try {
-      await mkdir(dir, { recursive: true })
-    } catch {
-      // ignore
+    if (testPath.startsWith('file:')) {
+      testPath = fileURLToPath(testPath)
     }
+    const root = dirname(await findUp('package.json', { cwd: dirname(testPath) }))
+    const seed = slash(testPath.replace(root, '.'))
+    const hash = createHash('md5').update(seed).digest('hex')
+    const cwd = opts.cwd || join(root, '.snapshots')
+    dir = join(cwd, hash)
+
+    await mkdir(dir, { recursive: true })
   }
 
   async function snapUpdate (obj) {
@@ -32,8 +34,16 @@ export default function build (seed, opts = {}) {
   async function snapRead (obj) {
     if (!dir) await init()
     const file = join(dir, `${counter++}.json`)
-    const data = await readFile(file, 'utf8')
-    return JSON.parse(data)
+    try {
+      const data = await readFile(file, 'utf8')
+      return JSON.parse(data)
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        return await snapUpdate(obj)
+      }
+
+      throw err
+    }
   }
 
   return update ? snapUpdate : snapRead

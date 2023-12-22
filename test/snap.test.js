@@ -55,3 +55,19 @@ test('update and read in top folder', async (t) => {
 
   await rm(dir, { recursive: true })
 })
+
+test('no update', async (t) => {
+  const cwd = await mkdtemp('snap-test-')
+
+  await t.test('write', async () => {
+    const snap = Snap(import.meta.url, { cwd })
+    await check(snap)
+  })
+
+  await t.test('read', async () => {
+    const snap = Snap(import.meta.url, { cwd })
+    await check(snap)
+  })
+
+  await rm(cwd, { recursive: true })
+})
