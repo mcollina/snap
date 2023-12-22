@@ -1,4 +1,4 @@
-# @matteocollina/snap
+# @matteo.collina/snap
 
 snapshot testing companion for node:test.
 
@@ -11,7 +11,7 @@ npm i @matteocollina/snap
 ## Usage
 
 ```js
-import Snap from '@matteocollina/snap'
+import Snap from '@matteo.collina/snap'
 import { test } from 'node:test'
 import { deepEqual } from 'node:assert/strict'
 
@@ -32,7 +32,7 @@ To update the snapshot, run with the `SNAP_UPDATE=1` env variable set.
 ### Usage with CommonJS
 
 ```js
-const Snap = require('@matteocollina/snap')
+const Snap = require('@matteo.collina/snap')
 const { test } = require('node:test')
 const { deepEqual } = require('node:assert/strict')
 
