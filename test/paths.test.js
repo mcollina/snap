@@ -1,8 +1,8 @@
 import Snap from '../snap.js'
 import { test } from 'node:test'
-import { rm, mkdtemp, writeFile, mkdir } from 'node:fs/promises'
+import { rm, mkdtemp, writeFile, mkdir, readdir } from 'node:fs/promises'
 import { join } from 'node:path'
-import { notDeepEqual, rejects } from 'node:assert/strict'
+import { notDeepEqual, rejects, deepEqual } from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 
 test('actual path written', async (t) => {
@@ -46,4 +46,21 @@ test('rethrow reading', async (t) => {
 
   const actual = 'actual'
   await rejects(snap(actual))
+})
+
+test('actually writes the right file', async (t) => {
+  const cwd = await mkdtemp('snap-test-')
+  t.after(async () => {
+    await rm(cwd, { recursive: true })
+  })
+
+  const hash = createHash('md5').update('./test/paths.test.js').digest('hex')
+
+  await mkdir(join(cwd, hash), { recursive: true })
+
+  const snap = Snap(import.meta.url, { cwd })
+  await snap('actual')
+
+  const files = await readdir(join(cwd, hash))
+  deepEqual(files, ['0.json'])
 })

@@ -39,7 +39,8 @@ export default function build (testPath, opts = {}) {
       return JSON.parse(data)
     } catch (err) {
       if (err.code === 'ENOENT') {
-        return await snapUpdate(obj)
+        await writeFile(file, JSON.stringify(obj, null, 2))
+        return obj
       }
 
       throw err
