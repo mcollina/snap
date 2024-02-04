@@ -5,7 +5,7 @@ snapshot testing companion for node:test.
 ## Install
 
 ```
-npm i @matteocollina/snap
+npm i @matteo.collina/snap
 ```
 
 ## Usage
