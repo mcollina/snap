@@ -24,7 +24,7 @@ test('update and read', async (t) => {
   })
 
   await t.test('fail', async () => {
-    const snap = Snap(import.meta.url, { cwd })
+    const snap = Snap(import.meta.url)
     const obj = { foo: 'bar' }
     const _obj = await snap(obj)
     expectType<any>(_obj)

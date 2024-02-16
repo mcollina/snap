@@ -6,4 +6,4 @@ interface SnapOptions {
 
 type snap = (obj: any) => Promise<any>;
 
-export default function build(url: String, opts: SnapOptions): snap;
+export default function build(url: String, opts?: SnapOptions): snap;
