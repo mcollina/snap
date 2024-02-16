@@ -1,6 +1,6 @@
 {
   "name": "@matteo.collina/snap",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "snapshot testing companion for node:test",
   "type": "module",
   "types": "./snap.d.ts",
