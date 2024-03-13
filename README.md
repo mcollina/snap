@@ -36,7 +36,7 @@ const Snap = require('@matteo.collina/snap')
 const { test } = require('node:test')
 const { deepEqual } = require('node:assert/strict')
 
-const snap = Snap(import.meta.url)
+const snap = Snap(__filename)
 
 test('a snapshot', async (t) => {
   const actual = await (await fetch('http://example.com')).text()
