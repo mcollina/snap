@@ -5,6 +5,8 @@ import { join } from 'node:path'
 import { notDeepEqual, rejects, deepEqual } from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 
+delete process.env.CI
+
 test('actual path written', async (t) => {
   const cwd = await mkdtemp('snap-test-')
   t.after(async () => {

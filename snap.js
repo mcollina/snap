@@ -39,7 +39,11 @@ export default function build (testPath, opts = {}) {
       return JSON.parse(data)
     } catch (err) {
       if (err.code === 'ENOENT') {
-        await writeFile(file, JSON.stringify(obj, null, 2))
+        if (process.env.CI) {
+          throw new Error(`Snapshot not found for: ${testPath}`)
+        } else {
+          await writeFile(file, JSON.stringify(obj, null, 2))
+        }
         return obj
       }
 
