@@ -1,6 +1,6 @@
 import Snap from '../snap.js'
 import { test } from 'node:test'
-import { deepEqual } from 'node:assert/strict'
+import { deepEqual, rejects } from 'node:assert/strict'
 import { rm, mkdtemp } from 'node:fs/promises'
 import { join } from 'desm'
 import { glob } from 'glob'
@@ -68,6 +68,26 @@ test('no update', async (t) => {
     const snap = Snap(import.meta.url, { cwd })
     await check(snap)
   })
+
+  await rm(cwd, { recursive: true })
+})
+
+test('no update fails in CI', async (t) => {
+  const cwd = await mkdtemp('snap-test-')
+
+  const snap = Snap(import.meta.url, { cwd })
+
+  const ci = process.env.CI
+  process.env.CI = 'true'
+  t.after(() => {
+    if (ci) {
+      process.env.CI = ci
+    } else {
+      delete process.env.CI
+    }
+  })
+  const obj = { foo: 'bar' }
+  await rejects(snap(obj))
 
   await rm(cwd, { recursive: true })
 })
