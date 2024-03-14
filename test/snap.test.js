@@ -5,6 +5,8 @@ import { rm, mkdtemp } from 'node:fs/promises'
 import { join } from 'desm'
 import { glob } from 'glob'
 
+delete process.env.CI
+
 async function check (snap) {
   {
     const obj = { foo: 'bar' }

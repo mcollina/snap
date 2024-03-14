@@ -7,6 +7,8 @@ const { rm, mkdtemp } = require('node:fs/promises')
 const { glob } = require('glob')
 const { dirname, join } = require('node:path')
 
+delete process.env.CI
+
 async function check (snap) {
   {
     const obj = { foo: 'bar' }
