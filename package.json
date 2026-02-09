@@ -9,7 +9,8 @@
     "require": "./snap.cjs"
   },
   "scripts": {
-    "test": "standard | snazzy && borp --concurrency 1 --coverage --no-typescript && tsd"
+    "lint": "eslint .",
+    "test": "eslint . && borp --concurrency 1 --coverage && tsd"
   },
   "keywords": [
     "snapshot",
@@ -22,11 +23,11 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^25.2.1",
-    "borp": "^0.20.0",
+    "borp": "^1.0.0",
     "desm": "^1.3.0",
-    "glob": "^10.3.10",
-    "snazzy": "^9.0.0",
-    "standard": "^17.1.0",
+    "eslint": "^9.22.0",
+    "glob": "^13.0.1",
+    "neostandard": "^0.12.2",
     "tsd": "^0.33.0"
   },
   "dependencies": {
