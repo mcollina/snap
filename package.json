@@ -30,7 +30,7 @@
     "tsd": "^0.31.1"
   },
   "dependencies": {
-    "find-up": "^7.0.0",
+    "find-up": "^8.0.0",
     "slash": "^5.1.0"
   }
 }
