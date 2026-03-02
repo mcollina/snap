@@ -27,7 +27,7 @@
     "desm": "^1.3.0",
     "eslint": "^9.22.0",
     "glob": "^13.0.1",
-    "neostandard": "^0.12.2",
+    "neostandard": "^0.13.0",
     "tsd": "^0.33.0"
   },
   "dependencies": {
